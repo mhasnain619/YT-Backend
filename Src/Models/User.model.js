@@ -23,7 +23,7 @@ const UserSchema = new Schema({
         trim: true,
         index: true
     },
-    avater: {
+    avatar: {
         type: String, //Cloudnairy url
     },
     watchHistory: [
@@ -43,7 +43,7 @@ const UserSchema = new Schema({
 
 UserSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next()
-    this.password = bcrypt.hash(this.password, 10)
+    this.password = await bcrypt.hash(this.password, 10)
     next()
 })
 UserSchema.methods.isPassowrdCorrect = async function (password) {
