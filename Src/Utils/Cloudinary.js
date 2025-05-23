@@ -5,9 +5,9 @@ import fs from 'fs'
 
 // Configuration
 cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_NAME,
-    api_key: process.env.CLOUDINARY_APIKEY,
-    api_secret: process.env.CLOUDINARY_SECRET,  // Click 'View API Keys' above to copy your API secret
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,  // Click 'View API Keys' above to copy your API secret
 });
 
 
@@ -28,8 +28,11 @@ const cloudinaryUpload = async (localFilePath) => {
         return response;
 
     } catch (error) {
-        fs.unlinkSync(localFilePath) // remove the locally saved temporery file as the upload operation failed
-        return null
+        if (fs.existsSync(localFilePath)) {
+            fs.unlinkSync(localFilePath);
+        }
+        console.error("Cloudinary upload failed:", error);
+        return null;
     }
 }
 
