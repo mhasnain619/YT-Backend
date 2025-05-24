@@ -26,6 +26,10 @@ const UserSchema = new Schema({
     avatar: {
         type: String, //Cloudnairy url
     },
+    coverImage: {
+        type: String,
+        default: '', // Allow empty string for optional cover image
+    },
     watchHistory: [
         {
             type: Schema.Types.ObjectId,
